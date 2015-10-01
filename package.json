@@ -1,0 +1,32 @@
+{
+  "name": "french-holidays",
+  "version": "0.0.1",
+  "description": "Gestion des vacances scolaires en france sur une période",
+  "main": "lib/french-holidays.js",
+  "private": true,
+  "engines": {
+    "node": "^0.10.x"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/seiyarus/french-holidays.git"
+  },
+  "keywords": [
+    "holidays"
+  ],
+  "author": "Julien Fournier @seiyarus (https://github.com/seiyarus)",
+  "license": "MIT",
+  "dependencies": {
+    "moment": "^2.10.6",
+    "cozy-ical" : "*",
+    "urllib-sync" : "*"
+  },
+  "devDependencies": {
+  "chai": "*",
+  "mocha": "*",
+  "blanket" : "*"
+  }
+}
