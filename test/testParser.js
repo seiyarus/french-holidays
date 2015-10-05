@@ -11,3 +11,11 @@ describe('Test getURL', function() {
             done();
         });
 });
+
+// Second test de la suite
+describe('Test getContenu', function() {
+        it('vérifier le contenu', function(done) {                        
+            assert.notEqual('', Parser.getContent()); // test de vérification du contenu non vide
+            done();
+        });
+});
