@@ -80,6 +80,12 @@ describe('Test date vacances scolaire toutes zone', function() {
             assert.isFalse(result); // La date du 15/10/2015 n'est pas dans les vacances toutes zone
             done();
         });
+
+        it('vérifier que le 1 aout est une date de vacances toute zone', function(done) {
+          var result = Parser.isDateInHolidays('20160801', 'YYYYMMDD');
+            assert.isTrue(result); // La date du 01/08/2016 est dans les vacances toutes zone
+            done();
+        });
 });
 
 // 5e test de la suite : une date dans les vacances scolaires une zone spécifique
@@ -123,5 +129,17 @@ describe('Test liste de dates vacances scolaire zone spécifique', function() {
             assert.isTrue(results[2]);
             done();
         });
-
 });
+
+// 7e test de la suite : retourner toutes les dates d'une année
+describe('Test liste de dates vacances scolaire par an', function() {
+        it('toutes zones', function(done) {
+        var year = 2016
+          var results = Parser.getHolidaysByYear(year);
+          assert.notEqual('', results); // test de vérification du contenu non vide
+          // TODO vérifier le contenu.
+          done();
+        });
+});
+
+// TODO Rajouter un test de validation sur une date de vacances d'été
