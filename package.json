@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "description": "Gestion des vacances scolaires en france sur une période",
   "main": "lib/french-holidays.js",
-  "private": true,
+  "author": "Julien Fournier",
+  "url": "https://github.com/seiyarus/french-holidays"
   "engines": {
     "node": "^0.12.x"
   },
