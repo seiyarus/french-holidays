@@ -1,6 +1,6 @@
 {
   "name": "french-holidays",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Gestion des vacances scolaires en france sur une période",
   "main": "lib/french-holidays.js",
   "author": "Julien Fournier",

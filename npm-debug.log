@@ -1,57 +1,78 @@
 0 info it worked if it ends with ok
 1 verbose cli [ 'C:\\Program Files\\nodejs\\node.exe',
 1 verbose cli   'C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
-1 verbose cli   'login' ]
+1 verbose cli   'publish' ]
 2 info using npm@2.14.4
 3 info using node@v4.1.1
-4 verbose adduser before first PUT { _id: 'org.couchdb.user:seiyarus',
-4 verbose adduser   name: 'seiyarus',
-4 verbose adduser   password: 'XXXXX',
-4 verbose adduser   email: 'seiyarus@gmail.com',
-4 verbose adduser   type: 'user',
-4 verbose adduser   roles: [],
-4 verbose adduser   date: '2015-10-07T14:25:44.902Z' }
-5 verbose request uri https://store.polymont-itservices.fr/api/npm/npm-virtual/-/user/org.couchdb.user:seiyarus
-6 verbose request new user, so can't send auth
-7 info attempt registry request try #1 at 16:25:44
-8 verbose request id 56507d770dc81cfe
-9 http request PUT https://store.polymont-itservices.fr/api/npm/npm-virtual/-/user/org.couchdb.user:seiyarus
-10 http 404 https://store.polymont-itservices.fr/api/npm/npm-virtual/-/user/org.couchdb.user:seiyarus
-11 verbose headers { date: 'Wed, 07 Oct 2015 14:25:48 GMT',
-11 verbose headers   server: 'Artifactory/3.9.1',
-11 verbose headers   'x-artifactory-id': '3a2af35b1d4175ec:-1fddeb83:14fcb2d877b:-8000',
-11 verbose headers   'content-type': 'application/json',
-11 verbose headers   'keep-alive': 'timeout=5, max=100',
-11 verbose headers   connection: 'Keep-Alive',
-11 verbose headers   'transfer-encoding': 'chunked' }
-12 verbose request invalidating E:\Users\julien.fournier\AppData\Roaming\npm-cache\store.polymont-itservices.fr\api\npm\npm-virtual\-\user\org.couchdb.user_3Aseiyarus on PUT
-13 verbose adduser back [ { [Error: Registry returned 404 for PUT on https://store.polymont-itservices.fr/api/npm/npm-virtual/-/user/org.couchdb.user:seiyarus] pkgid: 'api', statusCode: 404, code: 'E404' },
-13 verbose adduser   { errors: [ [Object] ] },
-13 verbose adduser   '{"errors":[{"status":404,"message":"Not Found"}]}' ]
-14 verbose stack Error: Registry returned 404 for PUT on https://store.polymont-itservices.fr/api/npm/npm-virtual/-/user/org.couchdb.user:seiyarus
-14 verbose stack     at makeError (C:\Program Files\nodejs\node_modules\npm\node_modules\npm-registry-client\lib\request.js:263:12)
-14 verbose stack     at CachingRegistryClient.<anonymous> (C:\Program Files\nodejs\node_modules\npm\node_modules\npm-registry-client\lib\request.js:241:14)
-14 verbose stack     at Request._callback (C:\Program Files\nodejs\node_modules\npm\node_modules\npm-registry-client\lib\request.js:171:14)
-14 verbose stack     at Request.self.callback (C:\Program Files\nodejs\node_modules\npm\node_modules\request\request.js:198:22)
-14 verbose stack     at emitTwo (events.js:87:13)
-14 verbose stack     at Request.emit (events.js:172:7)
-14 verbose stack     at Request.<anonymous> (C:\Program Files\nodejs\node_modules\npm\node_modules\request\request.js:1073:14)
-14 verbose stack     at emitOne (events.js:82:20)
-14 verbose stack     at Request.emit (events.js:169:7)
-14 verbose stack     at IncomingMessage.<anonymous> (C:\Program Files\nodejs\node_modules\npm\node_modules\request\request.js:1019:12)
-15 verbose statusCode 404
-16 verbose pkgid api
-17 verbose cwd E:\Projets\Perso\french-holidays
-18 error Windows_NT 6.1.7601
-19 error argv "C:\\Program Files\\nodejs\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "login"
-20 error node v4.1.1
-21 error npm  v2.14.4
-22 error code E404
-23 error 404 Registry returned 404 for PUT on https://store.polymont-itservices.fr/api/npm/npm-virtual/-/user/org.couchdb.user:seiyarus
-23 error 404
-23 error 404 'api' is not in the npm registry.
-23 error 404 You should bug the author to publish it (or use the name yourself!)
-23 error 404
-23 error 404 Note that you can also install from a
-23 error 404 tarball, folder, http url, or git url.
-24 verbose exit [ 1, true ]
+4 verbose publish [ '.' ]
+5 silly cache add args [ '.', null ]
+6 verbose cache add spec .
+7 silly cache add parsed spec Result {
+7 silly cache add   raw: '.',
+7 silly cache add   scope: null,
+7 silly cache add   name: null,
+7 silly cache add   rawSpec: '.',
+7 silly cache add   spec: 'E:\\Projets\\Perso\\french-holidays',
+7 silly cache add   type: 'directory' }
+8 verbose addLocalDirectory E:\Users\julien.fournier\AppData\Roaming\npm-cache\french-holidays\0.0.1\package.tgz not in flight; packing
+9 verbose tar pack [ 'E:\\Users\\julien.fournier\\AppData\\Roaming\\npm-cache\\french-holidays\\0.0.1\\package.tgz',
+9 verbose tar pack   'E:\\Projets\\Perso\\french-holidays' ]
+10 verbose tarball E:\Users\julien.fournier\AppData\Roaming\npm-cache\french-holidays\0.0.1\package.tgz
+11 verbose folder E:\Projets\Perso\french-holidays
+12 info prepublish french-holidays@0.0.1
+13 verbose addLocalTarball adding from inside cache E:\Users\julien.fournier\AppData\Roaming\npm-cache\french-holidays\0.0.1\package.tgz
+14 silly cache afterAdd french-holidays@0.0.1
+15 verbose afterAdd E:\Users\julien.fournier\AppData\Roaming\npm-cache\french-holidays\0.0.1\package\package.json not in flight; writing
+16 verbose afterAdd E:\Users\julien.fournier\AppData\Roaming\npm-cache\french-holidays\0.0.1\package\package.json written
+17 silly publish { name: 'french-holidays',
+17 silly publish   version: '0.0.1',
+17 silly publish   description: 'Gestion des vacances scolaires en france sur une période',
+17 silly publish   main: 'lib/french-holidays.js',
+17 silly publish   author:
+17 silly publish    { name: 'Julien Fournier @seiyarus',
+17 silly publish      url: 'https://github.com/seiyarus' },
+17 silly publish   url: 'https://github.com/seiyarus/french-holidays',
+17 silly publish   engines: { node: '^0.12.x' },
+17 silly publish   scripts: { test: 'mocha' },
+17 silly publish   keywords: [ 'holidays' ],
+17 silly publish   license: 'MIT',
+17 silly publish   dependencies:
+17 silly publish    { moment: '^2.10.6',
+17 silly publish      'cozy-ical': '^1.1.14',
+17 silly publish      'urllib-sync': '^1.1.2',
+17 silly publish      'properties-reader': '^0.0.11',
+17 silly publish      ical2json: '^0.2.0' },
+17 silly publish   devDependencies: { chai: '^3.3.0', mocha: '^2.3.3', blanket: '^1.1.7' },
+17 silly publish   readme: 'A simple JavaScript library for working whith french holidays.  \r\nThis library read the open-data file of the french governement, concerning this actual year and the next 3 scolar years (eg, in 2015 : all the year of 2015 and scolar year of 2015-2016, 2016-2017 and 2017-2018).\r\n\r\n\r\n# Installation\r\n\r\n`npm install french-holidays`\r\n\r\n# Usage\r\n## For a year\r\nBy a specific zone\r\n```javascript\r\nvar holidays = require(\'french-holidays\');\r\nconsole.log(holidays.by_year(2015, \'a\'))\r\n```\r\n\r\nFor all zones\r\n```javascript\r\nvar holidays = require(\'french-holidays\');\r\nconsole.log(holidays.by_year(2015))\r\n```\r\n\r\n## Check if one day is in holidays\r\n```javascript\r\nvar holidays = require(\'french-holidays\');\r\nconsole.log(holidays.isDateInHolidays(\'20160213\', \'YYYYMMDD\', \'A\'))\r\n```\r\nshould return true\r\n\r\n## Check if array of days is in holidays\r\n```javascript\r\nvar holidays = require(\'french-holidays\');\r\nconsole.log(holidays.isDateInHolidays([\'20160206\', \'20160213\', \'20151017\'], \'YYYYMMDD\', \'A\'))\r\n```\r\n\r\nshould return [false, true, true]\r\n\r\n# Author\r\n\r\nJulien Fournier <seiyarus@gmail.com>\r\n\r\n# License\r\n\r\n(The MIT License)\r\n\r\nPermission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \'Software\'), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\r\n\r\nThe above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\r\n\r\nTHE SOFTWARE IS PROVIDED \'AS IS\', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.\r\n',
+17 silly publish   readmeFilename: 'README.md',
+17 silly publish   gitHead: 'add3861b9896fb5a9ac270756f7a9b2810440615',
+17 silly publish   _id: 'french-holidays@0.0.1',
+17 silly publish   _shasum: '0bed90a63d578f065f58df2f8c04f30cd5499a7f',
+17 silly publish   _from: '.' }
+18 verbose getPublishConfig undefined
+19 silly mapToRegistry name french-holidays
+20 silly mapToRegistry using default registry
+21 silly mapToRegistry registry https://registry.npmjs.org/
+22 silly mapToRegistry uri https://registry.npmjs.org/french-holidays
+23 verbose publish registryBase https://registry.npmjs.org/
+24 silly publish uploading E:\Users\julien.fournier\AppData\Roaming\npm-cache\french-holidays\0.0.1\package.tgz
+25 verbose stack Error: auth required for publishing
+25 verbose stack     at CachingRegistryClient.publish (C:\Program Files\nodejs\node_modules\npm\node_modules\npm-registry-client\lib\publish.js:30:14)
+25 verbose stack     at C:\Program Files\nodejs\node_modules\npm\lib\publish.js:134:14
+25 verbose stack     at mapToRegistry (C:\Program Files\nodejs\node_modules\npm\lib\utils\map-to-registry.js:55:3)
+25 verbose stack     at publish_ (C:\Program Files\nodejs\node_modules\npm\lib\publish.js:104:3)
+25 verbose stack     at Array.<anonymous> (C:\Program Files\nodejs\node_modules\npm\node_modules\slide\lib\bind-actor.js:15:8)
+25 verbose stack     at LOOP (C:\Program Files\nodejs\node_modules\npm\node_modules\slide\lib\chain.js:15:14)
+25 verbose stack     at LOOP (C:\Program Files\nodejs\node_modules\npm\node_modules\slide\lib\chain.js:14:28)
+25 verbose stack     at chain (C:\Program Files\nodejs\node_modules\npm\node_modules\slide\lib\chain.js:20:5)
+25 verbose stack     at C:\Program Files\nodejs\node_modules\npm\lib\publish.js:73:5
+25 verbose stack     at RES (C:\Program Files\nodejs\node_modules\npm\node_modules\inflight\inflight.js:23:14)
+26 verbose cwd E:\Projets\Perso\french-holidays
+27 error Windows_NT 6.1.7601
+28 error argv "C:\\Program Files\\nodejs\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "publish"
+29 error node v4.1.1
+30 error npm  v2.14.4
+31 error code ENEEDAUTH
+32 error need auth auth required for publishing
+32 error need auth You need to authorize this machine using `npm adduser`
+33 verbose exit [ 1, true ]
