@@ -1,4 +1,4 @@
-A simple JavaScript library for listing all french holidays by a given year.  
+A simple JavaScript library for working whith french holidays.  
 This library read the open-data file of the french governement, concerning this actual year and the next 3 scolar years (eg, in 2015 : all the year of 2015 and scolar year of 2015-2016, 2016-2017 and 2017-2018).
 
 
