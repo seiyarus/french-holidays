@@ -4,6 +4,6 @@
      "README.md",
      "lib/**/*.js"
   ],
-  "github": true,
+  "github": false,
   "out" : "build/doc"
 }
