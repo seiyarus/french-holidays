@@ -1,0 +1,9 @@
+{
+  "glob": [
+     "test/**/*.js",
+     "README.md",
+     "lib/**/*.js"
+  ],
+  "github": true,
+  "out" : "build/doc"
+}
