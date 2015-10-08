@@ -1,0 +1,138 @@
+<!DOCTYPE html><html lang="en"><head><title>lib\parser</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../"><meta name="groc-document-path" content="lib\parser"><meta name="groc-project-path" content="lib\parser.js"><link rel="stylesheet" type="text/css" media="all" href="../assets/style.css"><script type="text/javascript" src="../assets/behavior.js"></script><body><div id="meta"><div class="file-path">lib\parser.js</div></div><div id="document"><div class="segment"><div class="code"><div class="wrapper"><span class="hljs-pi">'use strict'</span>
+<span class="hljs-keyword">var</span> request = <span class="hljs-built_in">require</span>(<span class="hljs-string">'urllib-sync'</span>).request;
+<span class="hljs-keyword">var</span> PropertiesReader = <span class="hljs-built_in">require</span>(<span class="hljs-string">'properties-reader'</span>);
+<span class="hljs-keyword">var</span> ICalParser = <span class="hljs-built_in">require</span>(<span class="hljs-string">'cozy-ical'</span>).ICalParser;
+<span class="hljs-keyword">var</span> ical2json = <span class="hljs-built_in">require</span>(<span class="hljs-string">"ical2json"</span>);
+<span class="hljs-keyword">var</span> moment = <span class="hljs-built_in">require</span>(<span class="hljs-string">'moment'</span>);
+
+<span class="hljs-keyword">var</span> ZONE_A_B_C = <span class="hljs-string">'Zones A B C'</span>;
+<span class="hljs-keyword">var</span> ZONE_A = <span class="hljs-string">'Zone A'</span>;
+<span class="hljs-keyword">var</span> ZONE_B = <span class="hljs-string">'Zone B'</span>;
+<span class="hljs-keyword">var</span> ZONE_C = <span class="hljs-string">'Zone C'</span>;
+<span class="hljs-keyword">var</span> ETE = <span class="hljs-string">'Vacances d\'été - Zones A B C'</span>;
+<span class="hljs-keyword">var</span> RENTREE = <span class="hljs-string">'Rentrée scolaire des élèves - Zones A B C'</span>;</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Parse le calendrier et retourne la liste des evenements</p></div></div><div class="code"><div class="wrapper">exports.parseCalendar = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">var</span> contenu = <span class="hljs-keyword">this</span>.getContent();
+  <span class="hljs-keyword">var</span> output = ical2json.convert(contenu);
+  <span class="hljs-keyword">var</span> vcalendar = output.VCALENDAR;
+  <span class="hljs-keyword">var</span> calendar = vcalendar[<span class="hljs-number">0</span>];
+  <span class="hljs-keyword">var</span> vevent = calendar.VEVENT;
+  <span class="hljs-keyword">return</span> vevent;
+}</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>s&#39;assure que l&#39;URL existe toujours.</p></div></div><div class="code"><div class="wrapper">exports.resolveUrlCalendar = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">var</span> res = request(getUrl());
+  <span class="hljs-keyword">if</span>(res.status==<span class="hljs-number">200</span>) {
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+  } <span class="hljs-keyword">else</span> {
+    <span class="hljs-built_in">console</span>.error(<span class="hljs-string">'Erreur sur l\'URL open Data de l\'éducation nationale'</span>);
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+  }
+  <span class="hljs-built_in">console</span>.error(<span class="hljs-string">'Erreur inconnue'</span>);
+  <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+}</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>retourne l&#39;url du gouvernement où est stocké le fichier des congés scolaires.</p></div></div><div class="code"><div class="wrapper"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getUrl</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-comment">//var properties = PropertiesReader('./lib/config.properties');</span>
+  <span class="hljs-comment">//var property = properties.get('url.dataGouv');</span>
+  <span class="hljs-keyword">var</span> property = <span class="hljs-string">'http://cache.media.education.gouv.fr/ics/Calendrier_Scolaire_Zones_A_B_C.ics'</span>;
+  <span class="hljs-keyword">return</span> property;
+}</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>retourne le contenu</p></div></div><div class="code"><div class="wrapper">exports.getContent = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">var</span> data = <span class="hljs-string">''</span>;
+  <span class="hljs-keyword">var</span> res = request(getUrl());
+  <span class="hljs-keyword">var</span> textChunk = res.data.toString(<span class="hljs-string">'utf8'</span>);
+  <span class="hljs-keyword">return</span> textChunk;
+}</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Calcul de la zone de recherche.</p></div></div><div class="code"><div class="wrapper"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getZone</span>(<span class="hljs-params">zone</span>) </span>{
+  <span class="hljs-keyword">if</span>(!zone) {
+    zone = ZONE_A_B_C;
+  } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(zone.toLowerCase().indexOf(<span class="hljs-string">'a'</span>)&gt; -<span class="hljs-number">1</span>) {
+    zone = ZONE_A;
+  }  <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(zone.toLowerCase().indexOf(<span class="hljs-string">'b'</span>)&gt; -<span class="hljs-number">1</span>) {
+    zone = ZONE_A;
+  }  <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(zone.toLowerCase().indexOf(<span class="hljs-string">'c'</span>)&gt; -<span class="hljs-number">1</span>) {
+    zone = ZONE_A;
+  }
+  <span class="hljs-keyword">return</span> zone;
+}</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>TODO faire le cas du début du fichier ou il n&#39;y a que la date de rentré des vacances d&#39;hiver.
+Recherche l&#39;evenement &#39;Rentrée scolaire des élèves - Zones A B C&#39; pour obtenir la fin des vacances d&#39;été a partir de la position courante du parser.</p></div></div><div class="code"><div class="wrapper"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">rechercherFinVacancesEte</span>(<span class="hljs-params">contenu, dateDebut</span>) </span>{
+  <span class="hljs-keyword">var</span>  j;
+  <span class="hljs-keyword">var</span> encours;
+  <span class="hljs-keyword">var</span> result;
+  <span class="hljs-keyword">for</span> (j = <span class="hljs-number">0</span>; j &lt; contenu.length; j++) {
+      <span class="hljs-keyword">var</span> summary = contenu[j].SUMMARY.toString();
+      <span class="hljs-keyword">if</span>(summary.indexOf(RENTREE)&gt; -<span class="hljs-number">1</span>){
+        <span class="hljs-keyword">var</span> item = contenu[j][<span class="hljs-string">'DTSTART;VALUE=DATE'</span>];
+        <span class="hljs-keyword">var</span> dateAVerifier = moment(item, <span class="hljs-string">'YYYYMMDD'</span>);
+        <span class="hljs-keyword">if</span>(dateAVerifier.isAfter(dateDebut) &amp;&amp; (!encours || dateAVerifier.isBefore(encours))) {
+          encours = dateAVerifier;
+          result = item;
+        }
+      }
+  }</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>TODO remonter une erreur si la date n&#39;est pas trouvée.</p></div></div><div class="code"><div class="wrapper">  <span class="hljs-keyword">return</span> result;
+}</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>l&#39;ensemble des dates sur une année.</p></div></div><div class="code"><div class="wrapper">exports.getHolidaysByYear = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">year, zone</span>) </span>{
+  zone = getZone(zone);
+  <span class="hljs-keyword">var</span> contenu = <span class="hljs-keyword">this</span>.parseCalendar();
+  <span class="hljs-keyword">var</span> i;
+  <span class="hljs-keyword">var</span> chaine = <span class="hljs-string">'{"holidays":['</span>;
+  <span class="hljs-keyword">var</span> firstAjout = <span class="hljs-literal">true</span>;
+  <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; contenu.length; i++) {</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Certaines dates concernent la reprise des profs : ce ne sont pas des vacances scolaires.</p></div></div><div class="code"><div class="wrapper">      <span class="hljs-keyword">var</span> summary = contenu[i].SUMMARY.toString();
+      <span class="hljs-keyword">var</span> start = contenu[i][<span class="hljs-string">'DTSTART;VALUE=DATE'</span>];
+      <span class="hljs-keyword">var</span> end = contenu[i][<span class="hljs-string">'DTEND;VALUE=DATE'</span>];</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>On est sur une plage de vacances et dans la zone concernée</p></div></div><div class="code"><div class="wrapper">      <span class="hljs-keyword">if</span>(summary.indexOf(<span class="hljs-string">'Vacances'</span>)&gt; -<span class="hljs-number">1</span> &amp;&amp; (summary.indexOf(zone)&gt; -<span class="hljs-number">1</span> || summary.indexOf(ZONE_A_B_C)&gt; -<span class="hljs-number">1</span>)) {
+        <span class="hljs-keyword">var</span> yearDebut = moment(start, <span class="hljs-string">'YYYYMMDD'</span>).year();
+        <span class="hljs-keyword">var</span> yearFin = moment(end, <span class="hljs-string">'YYYYMMDD'</span>).year();
+        <span class="hljs-keyword">var</span> start = contenu[i][<span class="hljs-string">'DTSTART;VALUE=DATE'</span>];
+        <span class="hljs-keyword">var</span> end;</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Cas des vacances d&#39;été.</p></div></div><div class="code"><div class="wrapper">        <span class="hljs-keyword">if</span>(summary.indexOf(ETE)&gt; -<span class="hljs-number">1</span>) {
+          end = rechercherFinVacancesEte(contenu, moment(start, <span class="hljs-string">'YYYYMMDD'</span>));
+        } <span class="hljs-keyword">else</span> {
+          end = contenu[i][<span class="hljs-string">'DTEND;VALUE=DATE'</span>];
+        }
+        <span class="hljs-keyword">if</span>(yearDebut==year || yearFin==year) {
+          <span class="hljs-keyword">var</span> dateDebut = moment(start, <span class="hljs-string">'YYYYMMDD'</span>).toDate();
+          <span class="hljs-keyword">var</span> dateFin = moment(end, <span class="hljs-string">'YYYYMMDD'</span>).toDate();
+          <span class="hljs-keyword">if</span>(!firstAjout) {
+            chaine+=<span class="hljs-string">',\n'</span>;
+          }
+          chaine+= <span class="hljs-string">'{"begin" : "'</span>+start+<span class="hljs-string">'", "end" : "'</span>+end+<span class="hljs-string">'"}'</span>;
+          firstAjout = <span class="hljs-literal">false</span>;
+        }
+      }
+  }
+
+  chaine+= <span class="hljs-string">']}'</span>;
+  <span class="hljs-keyword">return</span> <span class="hljs-built_in">JSON</span>.parse(chaine);
+}</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>True si la date passée en parametre est dans une période de vacances scolaire dans la zone fournie en parametre.
+Si la zone n&#39;est pas renseigné, la recherche se fait sur les zone A B et C</p></div></div><div class="code"><div class="wrapper">exports.isDateInHolidays = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">date, format, zone</span>) </span>{
+
+  <span class="hljs-keyword">var</span> dateDemandee = moment(date, format);
+  zone = getZone(zone);
+  <span class="hljs-keyword">var</span> contenu = <span class="hljs-keyword">this</span>.parseCalendar();
+  <span class="hljs-keyword">var</span> result = exploreContenu(contenu, dateDemandee, zone);
+  <span class="hljs-keyword">return</span> result;
+}</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>un tableau de résultats si les dates passées en parametre est dans une période de vacances scolaire dans la zone fournie en parametre.
+Si la zone n&#39;est pas renseigné, la recherche se fait sur les zone A B et C</p></div></div><div class="code"><div class="wrapper">exports.isDatesInHolidays = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">dates, format, zone</span>) </span>{
+  <span class="hljs-keyword">var</span> results = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Array</span>();
+  <span class="hljs-keyword">var</span> i;
+  zone = getZone(zone);
+  <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; dates.length; i++) {
+    <span class="hljs-keyword">var</span> date = dates[i];
+    <span class="hljs-keyword">var</span> dateDemandee = moment(date, format);
+    <span class="hljs-keyword">var</span> contenu = <span class="hljs-keyword">this</span>.parseCalendar();
+    <span class="hljs-keyword">var</span> result = exploreContenu(contenu, dateDemandee, zone);
+    <span class="hljs-built_in">console</span>.log(zone + <span class="hljs-string">'-'</span> + date + <span class="hljs-string">'-'</span> + result);
+    results[i] = result;
+  }
+  <span class="hljs-keyword">return</span> results;
+}</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>parcours le calendrier et regarde si la date est concernée dans une période de vacances pour la zone.</p></div></div><div class="code"><div class="wrapper"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">exploreContenu</span>(<span class="hljs-params">contenu, dateDemandee, zone</span>) </span>{
+  <span class="hljs-keyword">var</span> result = <span class="hljs-literal">false</span>;
+  <span class="hljs-keyword">var</span> i;
+  <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; contenu.length; i++) {</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Certaines dates concernent la reprise des profs : ce ne sont pas des vacances scolaires.</p></div></div><div class="code"><div class="wrapper">      <span class="hljs-keyword">var</span> summary = contenu[i].SUMMARY.toString();
+      <span class="hljs-keyword">var</span> start = contenu[i][<span class="hljs-string">'DTSTART;VALUE=DATE'</span>];
+      <span class="hljs-keyword">var</span> end;</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>On est sur une plage de vacances et dans la zone concernée</p></div></div><div class="code"><div class="wrapper">      <span class="hljs-keyword">if</span>(summary.indexOf(<span class="hljs-string">'Vacances'</span>)&gt; -<span class="hljs-number">1</span> &amp;&amp; (summary.indexOf(zone)&gt; -<span class="hljs-number">1</span> || summary.indexOf(ZONE_A_B_C)&gt; -<span class="hljs-number">1</span>)) {
+        <span class="hljs-keyword">var</span> dateDebut = moment(start, <span class="hljs-string">'YYYYMMDD'</span>);</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Cas des vacances d&#39;été.</p></div></div><div class="code"><div class="wrapper">        <span class="hljs-keyword">if</span>(summary.indexOf(ETE)&gt; -<span class="hljs-number">1</span>) {
+          end = rechercherFinVacancesEte(contenu, moment(start, <span class="hljs-string">'YYYYMMDD'</span>));
+        } <span class="hljs-keyword">else</span> {
+          end = contenu[i][<span class="hljs-string">'DTEND;VALUE=DATE'</span>];
+        }
+
+        <span class="hljs-keyword">var</span> dateFin = moment(end, <span class="hljs-string">'YYYYMMDD'</span>);</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Test si la date demandée est inclue dans la plage de vacances.</p></div></div><div class="code"><div class="wrapper">        <span class="hljs-keyword">if</span>((dateDebut.isSame(dateDemandee) || dateDebut.isBefore(dateDemandee)) &amp;&amp; (dateFin.isAfter(dateDemandee) || dateFin.isSame(dateDemandee))) {
+          <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+        }
+      }
+  }
+  <span class="hljs-keyword">return</span> result;
+}</div></div></div></div></body></html>

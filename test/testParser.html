@@ -1,0 +1,110 @@
+<!DOCTYPE html><html lang="en"><head><title>test\testParser</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../"><meta name="groc-document-path" content="test\testParser"><meta name="groc-project-path" content="test\testParser.js"><link rel="stylesheet" type="text/css" media="all" href="../assets/style.css"><script type="text/javascript" src="../assets/behavior.js"></script><body><div id="meta"><div class="file-path">test\testParser.js</div></div><div id="document"><div class="segment"><div class="comments "><div class="wrapper"><p>Activation du mode strict, qui permet notamment d&#39;éliminer les erreurs silencieuses javascript en véritables erreurs javascript.</p></div></div><div class="code"><div class="wrapper"><span class="hljs-pi">'use strict'</span>;</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>On fait la déclaration d&#39;assert utilisé par Chai</p></div></div><div class="code"><div class="wrapper"><span class="hljs-keyword">var</span> assert = <span class="hljs-built_in">require</span>(<span class="hljs-string">'chai'</span>).assert;
+<span class="hljs-keyword">var</span> Parser  = <span class="hljs-built_in">require</span>(<span class="hljs-string">'../lib/parser'</span>);</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Premier test de la suite</p></div></div><div class="code"><div class="wrapper">describe(<span class="hljs-string">'Test getURL'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+        it(<span class="hljs-string">'vérifier que l\'url de l\'open data est dispo'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">done</span>) </span>{
+            assert.equal(<span class="hljs-literal">true</span>, Parser.resolveUrlCalendar()); <span class="hljs-comment">// test de vérification que l'url existe toujours</span>
+            done();
+        });
+});</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Second test de la suite</p></div></div><div class="code"><div class="wrapper">describe(<span class="hljs-string">'Test getContenu'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+        it(<span class="hljs-string">'vérifier le contenu'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">done</span>) </span>{
+            assert.notEqual(<span class="hljs-string">''</span>, Parser.getContent()); <span class="hljs-comment">// test de vérification du contenu non vide</span>
+            done();
+        });
+});</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>3e test de la suite</p></div></div><div class="code"><div class="wrapper">describe(<span class="hljs-string">'Test parse'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+        it(<span class="hljs-string">'vérifier le parser'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">done</span>) </span>{
+            assert.notEqual(<span class="hljs-string">''</span>, Parser.parseCalendar()); <span class="hljs-comment">// test de vérification du contenu non vide</span>
+            done();
+        });
+});</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>4e test de la suite : une date dans les vacances scolaires toute zone</p></div></div><div class="code"><div class="wrapper">describe(<span class="hljs-string">'Test date vacances scolaire toutes zone'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+        it(<span class="hljs-string">'vérifier que le 17 octobre est une date de vacances toute zone'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">done</span>) </span>{
+          <span class="hljs-keyword">var</span> result = Parser.isDateInHolidays(<span class="hljs-string">'20151017'</span>, <span class="hljs-string">'YYYYMMDD'</span>);
+            assert.isTrue(result); <span class="hljs-comment">// La date du 17/10/2015 est dans les vacances toutes zone</span>
+            done();
+        });
+
+        it(<span class="hljs-string">'vérifier que le 17 octobre est une date de vacances zone A'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">done</span>) </span>{
+          <span class="hljs-keyword">var</span> result = Parser.isDateInHolidays(<span class="hljs-string">'20151017'</span>, <span class="hljs-string">'YYYYMMDD'</span>, <span class="hljs-string">'A'</span>);
+            assert.isTrue(result); <span class="hljs-comment">// La date du 17/10/2015 est dans les vacances toutes zone</span>
+            done();
+        });
+
+        it(<span class="hljs-string">'vérifier que le 17 octobre est une date de vacances zone a'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">done</span>) </span>{</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Test zone en minuscule</p></div></div><div class="code"><div class="wrapper">          <span class="hljs-keyword">var</span> result = Parser.isDateInHolidays(<span class="hljs-string">'20151017'</span>, <span class="hljs-string">'YYYYMMDD'</span>, <span class="hljs-string">'a'</span>);
+            assert.isTrue(result); <span class="hljs-comment">// La date du 17/10/2015 est dans les vacances toutes zone</span>
+            done();
+        });
+
+        it(<span class="hljs-string">'vérifier que le 17 octobre est une date de vacances zone B'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">done</span>) </span>{
+          <span class="hljs-keyword">var</span> result = Parser.isDateInHolidays(<span class="hljs-string">'20151017'</span>, <span class="hljs-string">'YYYYMMDD'</span>, <span class="hljs-string">'B'</span>);
+            assert.isTrue(result); <span class="hljs-comment">// La date du 17/10/2015 est dans les vacances toutes zone</span>
+            done();
+        });
+
+        it(<span class="hljs-string">'vérifier que le 17 octobre est une date de vacances zone b'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">done</span>) </span>{</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Test zone en minuscule</p></div></div><div class="code"><div class="wrapper">          <span class="hljs-keyword">var</span> result = Parser.isDateInHolidays(<span class="hljs-string">'20151017'</span>, <span class="hljs-string">'YYYYMMDD'</span>, <span class="hljs-string">'b'</span>);
+            assert.isTrue(result); <span class="hljs-comment">// La date du 17/10/2015 est dans les vacances toutes zone</span>
+            done();
+        });
+
+        it(<span class="hljs-string">'vérifier que le 17 octobre est une date de vacances zone C'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">done</span>) </span>{
+          <span class="hljs-keyword">var</span> result = Parser.isDateInHolidays(<span class="hljs-string">'20151017'</span>, <span class="hljs-string">'YYYYMMDD'</span>, <span class="hljs-string">'C'</span>);
+            assert.isTrue(result); <span class="hljs-comment">// La date du 17/10/2015 est dans les vacances toutes zone</span>
+            done();
+        });
+
+        it(<span class="hljs-string">'vérifier que le 17 octobre est une date de vacances zone c'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">done</span>) </span>{</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Test zone en minuscule</p></div></div><div class="code"><div class="wrapper">          <span class="hljs-keyword">var</span> result = Parser.isDateInHolidays(<span class="hljs-string">'20151017'</span>, <span class="hljs-string">'YYYYMMDD'</span>, <span class="hljs-string">'c'</span>);
+            assert.isTrue(result); <span class="hljs-comment">// La date du 17/10/2015 est dans les vacances toutes zone</span>
+            done();
+        });
+
+        it(<span class="hljs-string">'vérifier que le 15 octobre n\'est pas une date de vacances toute zone'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">done</span>) </span>{
+          <span class="hljs-keyword">var</span> result = Parser.isDateInHolidays(<span class="hljs-string">'20151015'</span>, <span class="hljs-string">'YYYYMMDD'</span>);
+            assert.isFalse(result); <span class="hljs-comment">// La date du 15/10/2015 n'est pas dans les vacances toutes zone</span>
+            done();
+        });
+
+        it(<span class="hljs-string">'vérifier que le 1 aout est une date de vacances toute zone'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">done</span>) </span>{
+          <span class="hljs-keyword">var</span> result = Parser.isDateInHolidays(<span class="hljs-string">'20160801'</span>, <span class="hljs-string">'YYYYMMDD'</span>);
+            assert.isTrue(result); <span class="hljs-comment">// La date du 01/08/2016 est dans les vacances toutes zone</span>
+            done();
+        });
+});</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>5e test de la suite : une date dans les vacances scolaires une zone spécifique</p></div></div><div class="code"><div class="wrapper">describe(<span class="hljs-string">'Test date vacances scolaire zone spécifique'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+        it(<span class="hljs-string">'vérifier que le 17 octobre est une date de vacances zone A'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">done</span>) </span>{
+          <span class="hljs-keyword">var</span> result = Parser.isDateInHolidays(<span class="hljs-string">'20151017'</span>, <span class="hljs-string">'YYYYMMDD'</span>, <span class="hljs-string">'A'</span>);
+            assert.isTrue(result); <span class="hljs-comment">// La date du 17/10/2015 est dans les vacances toutes zone</span>
+            done();
+        });
+
+        it(<span class="hljs-string">'vérifier que le 13 février est une date de vacances zone A'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">done</span>) </span>{
+          <span class="hljs-keyword">var</span> result = Parser.isDateInHolidays(<span class="hljs-string">'20160213'</span>, <span class="hljs-string">'YYYYMMDD'</span>, <span class="hljs-string">'A'</span>);
+            assert.isTrue(result); <span class="hljs-comment">// La date du 13/02/2016 est dans les vacances Zone A</span>
+            done();
+        });
+
+        it(<span class="hljs-string">'vérifier que le 6 février n\'est pas une date de vacances zone A'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">done</span>) </span>{
+          <span class="hljs-keyword">var</span> result = Parser.isDateInHolidays(<span class="hljs-string">'20160206'</span>, <span class="hljs-string">'YYYYMMDD'</span>, <span class="hljs-string">'A'</span>);
+            assert.isFalse(result); <span class="hljs-comment">// La date du 06/02/2016 n'est pas dans les vacances zone A</span>
+            done();
+        });
+
+        it(<span class="hljs-string">'vérifier que le 13 février n\'est pas une date de vacances toute zone'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">done</span>) </span>{
+          <span class="hljs-keyword">var</span> result = Parser.isDateInHolidays(<span class="hljs-string">'20160213'</span>, <span class="hljs-string">'YYYYMMDD'</span>);
+            assert.isFalse(result); <span class="hljs-comment">// La date du 13/02/2016 n'est pas dans les vacances zone A</span>
+            done();
+        });
+});</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>6e test de la suite : une liste de dates dans les vacances scolaires une zone spécifique</p></div></div><div class="code"><div class="wrapper">describe(<span class="hljs-string">'Test liste de dates vacances scolaire zone spécifique'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+        it(<span class="hljs-string">'vérifier un ensemble de dates'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">done</span>) </span>{
+          <span class="hljs-keyword">var</span> dates = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Array</span>();;
+          dates[<span class="hljs-number">0</span>] = <span class="hljs-string">'20160206'</span>; <span class="hljs-comment">// pas dans la zone A</span>
+          dates[<span class="hljs-number">1</span>] = <span class="hljs-string">'20160213'</span>; <span class="hljs-comment">// Dans la zone A</span>
+          dates[<span class="hljs-number">2</span>] = <span class="hljs-string">'20151017'</span>; <span class="hljs-comment">// Toutes zone</span>
+          <span class="hljs-keyword">var</span> results = Parser.isDatesInHolidays(dates, <span class="hljs-string">'YYYYMMDD'</span>, <span class="hljs-string">'A'</span>);
+            assert.isFalse(results[<span class="hljs-number">0</span>]);
+            assert.isTrue(results[<span class="hljs-number">1</span>]);
+            assert.isTrue(results[<span class="hljs-number">2</span>]);
+            done();
+        });
+});</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>7e test de la suite : retourner toutes les dates d&#39;une année</p></div></div><div class="code"><div class="wrapper">describe(<span class="hljs-string">'Test liste de dates vacances scolaire par an'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+        it(<span class="hljs-string">'toutes zones'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">done</span>) </span>{
+        <span class="hljs-keyword">var</span> year = <span class="hljs-number">2016</span>
+          <span class="hljs-keyword">var</span> results = Parser.getHolidaysByYear(year);
+          assert.notEqual(<span class="hljs-string">''</span>, results); <span class="hljs-comment">// test de vérification du contenu non vide</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>TODO vérifier le contenu.</p></div></div><div class="code"><div class="wrapper">          done();
+        });
+});</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>TODO Rajouter un test de validation sur une date de vacances d&#39;été</p></div></div></div></div></body></html>
